@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curd</title>
+    <style>
+        *{
+            margin: 0%;
+            padding: 0%;
+            box-sizing: border-box;
+        }
+       body{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: darkgray;
+        
+       }
+       #i{
+        text-align: justify;
+        width: 600px;
+        height: 300px;
+        margin: 5%;
+        font-weight: bolder;
+        font-size: larger;
+       }
+       #i tr{
+        text-align: center;
+        background-color: white;
+        font-size: larger;
+
+       }
+       .o{
+        width: 98%;
+        height: 100%;
+        border: none;
+       }
+       .o:focus{
+        outline: none;
+       }
+       #addbtn{
+        height: 100%;
+        background-color: rgb(64, 196, 64);
+        color: white;
+       }
+    </style>
+</head>
+<body>
+    <div id="formsec" >
+        <form action="" id="form">
+            <table border="1px" id="i">
+                <tr>
+                    <td>
+                        <label for="name">Name</label>
+                    </td>
+                    <td>
+                        <input type="text" id="name" class="o"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="age">Age</label>
+                    </td>
+                    <td>
+                        <input type="number" id="age" id="name" class="o"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="gender">Gender</label>
+                    </td>
+                    <td>
+                        <input type="radio" name="gender" value="Male">Male
+                        <input type="radio" name="gender" value="Female" >Female<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email">E-mail</label>
+                    </td>
+                    <td>
+                        <input type="email" id="email" id="name" class="o"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Phone">Phone</label>
+                    </td>
+                    <td>
+                        <input type="number" id="phone" id="name" class="o"><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="submit" id="addbtn" style="width: 100%;">ADD</button>
+                    </td>
+                </tr>
+            </table>   
+        </form>
+    </div>
+    <style>
+        #tablesec th{
+            padding: 10px;
+        }
+        tbody{
+            padding: 10px;
+        }
+        th{
+            font-size: larger;
+            font-weight: bolder;
+            background-color: white;
+        }
+    </style>
+    <div id="tablesec" style="width: 100%;border: 1px solid black;">
+        <table border="1" id="table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>E-mail</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    //form
+    let name=document.getElementById("name")
+    let age=document.getElementById("age")
+    let gender=document.getElementsByName("gender")
+    let email=document.getElementById("email")
+    let phone=document.getElementById("phone")
+    let addbtn =document.getElementById("addbtn")
+    //table
+    let table=document.getElementById("table")
+    let tbody=table.getElementsByTagName("tbody")[0]
+    let index=null;
+    //addeventlistner section
+    addbtn.addEventListener("click",(e)=>{
+        let name=document.getElementById("name")
+        e.preventDefault();
+        if(index!=null){
+            update()
+            
+        }else{
+            addbtn()
+
+        }
+        name.value=""
+        age.value=""
+        email.value=""
+        phone.value=""
+        gender.forEach(gender=>{
+            gender.checked=false
+        })
+        
+    })
+    addbtn=()=>{
+        gender.forEach(gender=>{
+        if(gender.checked){
+        let gender_value=gender.value;
+        let newRow = tbody.insertRow();
+        
+        newRow.style.fontSize="larger"
+        newRow.style.fontWeight="bolder"
+        newRow.style.textAlign="center"
+        newRow.style.backgroundColor="white"
+        newRow.insertCell(0).textContent=name.value
+        newRow.insertCell(1).textContent=age.value;
+        newRow.insertCell(2).textContent=gender.value;
+        newRow.insertCell(3).textContent=email.value;
+        newRow.insertCell(4).textContent=phone.value;
+        //edit button
+        let editbtn=document.createElement("button")
+        editbtn.textContent="edit"
+        editbtn.style.width="100%"
+        editbtn.style.padding="10px"
+        editbtn.style.textAlign="center"
+        editbtn.style.color="white"
+        editbtn.style.backgroundColor="green"
+        editbtn.style.fontSize="larger"
+        editbtn.style.border="none"
+        newRow.insertCell(5).appendChild(editbtn)
+        //delete button
+        let delbtn=document.createElement("button")
+        delbtn.style.border="none"
+        delbtn.textContent="edit"
+        delbtn.style.width="100%"
+        delbtn.style.padding="10px"
+        delbtn.style.textAlign="center"
+        delbtn.style.color="white"
+        delbtn.style.backgroundColor="red"
+        delbtn.style.fontSize="larger"
+        delbtn.textContent="Delete"
+        newRow.insertCell(6).appendChild(delbtn)
+        delbtn.addEventListener("click", () => {
+            let delindex = newRow.rowIndex-1
+            tbody.deleteRow(delindex)
+        });
+        editbtn.addEventListener("click",()=>{
+            let addbtn =document.getElementById("addbtn")
+            addbtn.textContent="UPDATE"
+            index =newRow.rowIndex-1
+            name.value=tbody.rows[index].cells[0].textContent;
+            age.value=tbody.rows[index].cells[1].textContent;
+            setgender(tbody.rows[index].cells[2].textContent)
+            email.value=tbody.rows[index].cells[3].textContent;
+            phone.value=tbody.rows[index].cells[4].textContent;
+            
+        })
+    }
+})
+}
+let update=()=>{
+    let updateval=updategendervalue()
+    tbody.rows[index].cells[0].textContent=name.value;
+    tbody.rows[index].cells[1].textContent=age.value;
+    tbody.rows[index].cells[2].textContent=updateval;
+    tbody.rows[index].cells[3].textContent = email.value;
+    tbody.rows[index].cells[4].textContent = phone.value;
+    index=null;
+    let addbtn =document.getElementById("addbtn")
+    addbtn.textContent="ADD"
+    
+}
+let setgender=(setgendervalue)=>{
+    gender.forEach(gender=>{
+        gender.checked=gender.value===setgendervalue
+})
+}
+let updategendervalue=()=>{
+    gender.forEach(gender=>{
+        if(gender.checked){
+            update_gender_value=gender.value
+        }
+    })
+    return update_gender_value;
+}
+
+
+</script>
